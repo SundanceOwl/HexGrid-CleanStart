@@ -1,11 +1,4 @@
-# =================================================================
 # Unity
-#
-# Dieser .gitignore wurde von GitHub's Vorlage generiert.
-# URL: https://github.com/github/gitignore/blob/main/Unity.gitignore
-# =================================================================
-
-# Unity-spezifische temporäre Dateien und Ordner
 /[Ll]ibrary/
 /[Tt]emp/
 /[Oo]bj/
@@ -13,14 +6,10 @@
 /[Bb]uilds/
 /[Ll]ogs/
 /[Uu]ser[Ss]ettings/
-
-# MemoryCaptures können sehr groß werden
 /[Mm]emoryCaptures/
-
-# Unity-interne Asset-Server-Daten
 /[Aa]ssets/AssetStoreTools*
 
-# Autogenerierte IDE/Editor-Projektdateien
+# IDE/Editor-Dateien
 .vs/
 .vscode/
 *.sln
@@ -38,4 +27,15 @@
 # Crash-Reports
 sysinfo.txt
 
-# =================================================================
+# ZIP-Dateien
+*.zip
+
+# Windows
+Thumbs.db
+Desktop.ini
+
+# macOS
+.DS_Store
+
+# Unity Package Manager
+/Packages/

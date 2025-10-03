@@ -35,6 +35,28 @@ public class HexGame : MonoBehaviour
         InitializeGameStart();
     }
 
+
+    /// <summary>
+    /// Löscht alle existierenden HexCell-GameObjects aus der Szene und leert das Dictionary.
+    /// </summary>
+    public void ClearGrid()
+    {
+        if (cells.Count == 0) return;
+
+        // Zerstöre alle GameObjects und deren Einheiten
+        foreach (HexCell cell in cells.Values)
+        {
+            if (cell.currentUnit != null)
+            {
+                cell.currentUnit.DestroyUnit(); // Einheit entfernen
+            }
+            // Zerstöre das HexCell-GameObject
+            Destroy(cell.gameObject);
+        }
+
+        cells.Clear(); // Leere das Dictionary
+    }
+
     // Erstellt das Hex-Grid
     public void GenerateGrid()
     {
@@ -63,7 +85,7 @@ public class HexGame : MonoBehaviour
                 cell.x = x;
                 cell.y = y;
                 // Die SetElevation-Methode ist nicht mehr notwendig, da das Prefab die Höhe repräsentiert
-
+                cell.elevation = elevation;
                 cells.Add(y * gridWidth + x, cell);
                 cellGO.name = "Hex " + x + "," + y + " E" + elevation;
             }
@@ -115,7 +137,7 @@ public class HexGame : MonoBehaviour
         return Mathf.FloorToInt(noiseValue * elevationPrefabs.Length);
     }
 
-    private Vector3 GetCellPosition(int x, int y)
+    public Vector3 GetCellPosition(int x, int y)
     {
         // Wir setzen voraus, dass das Modell 90° gedreht ist (X=1.732, Z=2.0)
         float r = 1.0f;
@@ -204,7 +226,7 @@ public class HexGame : MonoBehaviour
     }
 
     // Platziert die Start-Units für Testzwecke
-    private void InitializeGameStart()
+    public void InitializeGameStart()
     {
         // Beispiel: Platziere Player 1 Unit bei (1, 1) und Player 2 Unit bei (18, 18)
         PlaceUnit(1, 1, 1);
