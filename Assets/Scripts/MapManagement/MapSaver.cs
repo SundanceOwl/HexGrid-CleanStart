@@ -14,6 +14,7 @@ public class MapSaver : MonoBehaviour
         public HexData[] Hexes;
         public int Width;
         public int Height;
+        public bool[] isCity;
     }
 
     // Referenz zum HexGame-Skript, um das Grid abzurufen
@@ -52,6 +53,13 @@ public class MapSaver : MonoBehaviour
                 ElevationIndex = cell.elevation
             })
             .ToArray();
+
+        // Neu: isCity-Array initialisieren mit false für alle Hexe
+        mapData.isCity = new bool[allCells.Count];
+        for (int i = 0; i < mapData.isCity.Length; i++)
+        {
+            mapData.isCity[i] = false;
+        }
 
         // 2. Grid-Dimensionen speichern (aus HexGame.cs)
         mapData.Width = hexGame.gridWidth;

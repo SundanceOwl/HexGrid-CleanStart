@@ -22,7 +22,7 @@ public class Unit : MonoBehaviour
         transform.position = newPosition;
 
         // Aktualisiert den Zustand der Zelle
-        cell.isOccupied = true;
+        //cell.isOccupied = true;
         cell.playerOwner = ownerPlayer;
         cell.currentUnit = this;
 
@@ -34,7 +34,7 @@ public class Unit : MonoBehaviour
     {
         if (currentCell != null)
         {
-            currentCell.isOccupied = false;
+            //currentCell.isOccupied = false;
             currentCell.playerOwner = 0;
             currentCell.currentUnit = null;
         }

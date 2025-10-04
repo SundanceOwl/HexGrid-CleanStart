@@ -13,10 +13,9 @@ GameObject:
   - component: {fileID: 5553307604615847991}
   - component: {fileID: 5986319926300088508}
   - component: {fileID: 5286400514511625094}
-  - component: {fileID: 2974505080928456048}
   - component: {fileID: -6084935270897914496}
-  - component: {fileID: -2081459632799807215}
-  m_Layer: 0
+  - component: {fileID: -3014424226175251977}
+  m_Layer: 3
   m_Name: Hex_E4_Mountain
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -653,28 +652,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6120059187302442244}
   m_Mesh: {fileID: 0}
---- !u!64 &2974505080928456048
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6120059187302442244}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 0}
 --- !u!114 &-6084935270897914496
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -687,19 +664,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57d1834c5ab428c40b17691d3d4c6a08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  x: 0
-  y: 0
+  highlightMaterial: {fileID: 2100000, guid: e59490f3339c3834fae836e7341730d7, type: 2}
+  cityMaterial: {fileID: 0}
+  isCity: 0
   elevation: 0
-  isOccupied: 0
   playerOwner: 0
   currentUnit: {fileID: 0}
-  cellRenderer: {fileID: 0}
-  playerPiece: {fileID: 0}
-  player1Material: {fileID: 2100000, guid: 45f0ff0131054664dacac78262b9f02f, type: 2}
-  player2Material: {fileID: 2100000, guid: e29cf7ded302c4e418f45bef6bab1a60, type: 2}
-  highlightMaterial: {fileID: 2100000, guid: e59490f3339c3834fae836e7341730d7, type: 2}
---- !u!64 &-2081459632799807215
-MeshCollider:
+  x: 0
+  y: 0
+  z: 0
+  cellRenderer: {fileID: 5986319926300088508}
+--- !u!65 &-3014424226175251977
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -716,7 +692,6 @@ MeshCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 0}
+  serializedVersion: 3
+  m_Size: {x: 1, y: 4, z: 1}
+  m_Center: {x: 0, y: 2, z: 0}

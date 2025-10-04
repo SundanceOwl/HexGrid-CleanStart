@@ -328,7 +328,7 @@ public class HexGame : MonoBehaviour
                 // Zug ist gültig: Bewege die Unit
 
                 // Zustand der alten Zelle zurücksetzen
-                selectedCell.isOccupied = false;
+                
                 selectedCell.playerOwner = 0;
                 selectedCell.currentUnit = null;
 

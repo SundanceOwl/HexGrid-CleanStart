@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 2974505080928456048}
   - component: {fileID: -6084935270897914496}
   - component: {fileID: -2081459632799807215}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Hex_E3_Rock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -687,17 +687,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57d1834c5ab428c40b17691d3d4c6a08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  x: 0
-  y: 0
+  highlightMaterial: {fileID: 2100000, guid: e59490f3339c3834fae836e7341730d7, type: 2}
+  cityMaterial: {fileID: 0}
+  isCity: 0
   elevation: 0
-  isOccupied: 0
   playerOwner: 0
   currentUnit: {fileID: 0}
-  cellRenderer: {fileID: 0}
-  playerPiece: {fileID: 0}
-  player1Material: {fileID: 2100000, guid: 45f0ff0131054664dacac78262b9f02f, type: 2}
-  player2Material: {fileID: 2100000, guid: e29cf7ded302c4e418f45bef6bab1a60, type: 2}
-  highlightMaterial: {fileID: 2100000, guid: e59490f3339c3834fae836e7341730d7, type: 2}
+  x: 0
+  y: 0
+  z: 0
+  cellRenderer: {fileID: 5986319926300088508}
 --- !u!64 &-2081459632799807215
 MeshCollider:
   m_ObjectHideFlags: 0

@@ -1,96 +1,144 @@
 using UnityEngine;
 
+// Definiert die Zelle des Hex-Gitters
 public class HexCell : MonoBehaviour
 {
-    [Header("Cell Properties")]
-    public int x, y; // Grid coordinates
-    public int elevation = 0;
-    public bool isOccupied = false;
-    public int playerOwner = 0; // 0 = empty, 1 = Player 1, 2 = Player 2
-    public Unit currentUnit; // NEU: Referenz zur Unit
+    [Header("Materialien")]
+    public Material highlightMaterial; // Material für Hover-Effekt
+    public Material cityMaterial;      // Material für Stadt-Zellen
 
-    [Header("Visual Components")]
-    public Renderer cellRenderer;
-    public GameObject playerPiece;
+    [Header("Status")]
+    public bool isCity = false;          // NEU: Status für die Stadt-Logik
 
-    [Header("Materials")]
-    // Diese Materialien müssen im Inspector zugewiesen werden
-    public Material player1Material;
-    public Material player2Material;
-    public Material highlightMaterial;
+    [Header("Terrain Data")]
+    public int elevation;       // FÜR MAPSAVER
+    public int playerOwner;     // FÜR UNIT.CS UND CITY-LOGIC
+    public Unit currentUnit;     // FÜR HEXGAME
+    public bool isOccupied => currentUnit != null;
 
+    [Header("Coordinates")]
+    public int x;
+    public int y;
+    public int z;               // FÜR MAPSAVER
+
+    // Private interne Felder
     private Material originalMaterial;
-    private bool isHighlighted = false;
+    private bool materialsInitialized = false;
+    private Renderer _cellRenderer;
 
-    void Start()
+    [Header("Renderer Zuweisung")]
+    public Renderer cellRenderer; // Bestehendes Feld beibehalten für Inspector
+
+    private Renderer CellRenderer
     {
-        if (cellRenderer == null)
-            cellRenderer = GetComponent<Renderer>();
-
-        // Speichere das Material, das vom Prefab mitgebracht wird, als Original-Terrain-Material.
-        if (cellRenderer != null && cellRenderer.sharedMaterial != null)
+        get
         {
-            originalMaterial = cellRenderer.sharedMaterial;
+            if (_cellRenderer == null)
+            {
+                // Verwende Inspector-Wert, wenn gesetzt, sonst suche in Children
+                _cellRenderer = cellRenderer != null ? cellRenderer : GetComponentInChildren<Renderer>();
+                if (_cellRenderer == null)
+                {
+                    UnityEngine.Debug.LogError($"Fehler: Kein Renderer gefunden für HexCell {gameObject.name} (Elevation {elevation})");
+                }
+            }
+            return _cellRenderer;
         }
     }
 
-    // Maus-Events für das Hovern
-    void OnMouseEnter() { SetHighlight(true); }
-    void OnMouseExit() { SetHighlight(false); }
-    void OnMouseDown()
+    // Setzt den Stadt-Status der Zelle
+    public void SetIsCity(bool status)
     {
-        if (GameManager.Instance != null)
+        isCity = status;
+
+        // Aktualisiert das visuelle Erscheinungsbild sofort
+        if (isCity)
         {
-            // ANPASSUNG: Muss den Aufruf an HexGame.cs weiterleiten!
-            GameManager.Instance.OnCellClicked(this);
-        }
-    }
-
-    // Setzt das Material der Zelle (Hervorhebung/Besitzer)
-    public void SetHighlight(bool highlight)
-    {
-        isHighlighted = highlight;
-
-        if (cellRenderer == null) return;
-
-        if (highlight && highlightMaterial != null)
-        {
-            SetCellMaterial(highlightMaterial);
+            SetHighlight(false); // Aktualisiert, falls gerade gehovert
+            SetCellMaterial(cityMaterial);
         }
         else
         {
-            // Rückkehr zum Besitzer-Material oder zum Original-Terrain-Material
-            if (playerOwner == 1 && player1Material != null)
+            SetHighlight(false); // Setzt auf Original-Zustand zurück
+        }
+    }
+
+    // Steuert den Hover-Effekt und die Material-Priorität
+    public void SetHighlight(bool highlight)
+    {
+        UnityEngine.Debug.Log($"[Hover] Highlighting für {gameObject.name} mit Elevation {elevation}");
+
+        if (highlight)
+        {
+            if (highlightMaterial != null)
             {
-                SetCellMaterial(player1Material);
+                SetCellMaterial(highlightMaterial);
+                UnityEngine.Debug.Log($"Highlighting aktiviert für {gameObject.name} (Elevation {elevation})");
             }
-            else if (playerOwner == 2 && player2Material != null)
+            else
             {
-                SetCellMaterial(player2Material);
+                UnityEngine.Debug.LogWarning($"Kein highlightMaterial zugewiesen für {gameObject.name} (Elevation {elevation})");
             }
-            else if (originalMaterial != null)
+        }
+        else
+        {
+            // Setzt die höchste dauerhafte Priorität: Stadt-Material
+            if (isCity && cityMaterial != null)
             {
-                // Wenn die Zelle leer ist
+                SetCellMaterial(cityMaterial);
+            }
+            // Fallback auf das gespeicherte Originalmaterial
+            else
+            {
                 SetCellMaterial(originalMaterial);
             }
         }
     }
 
-    // Setzt den Besitzer der Zelle
-    public void SetOwner(int player)
-    {
-        playerOwner = player;
-        isOccupied = (player != 0);
-        SetHighlight(isHighlighted);
-    }
-
+    // Speichert/Setzt das Material auf den Renderer
     private void SetCellMaterial(Material material)
     {
-        if (cellRenderer != null && material != null)
+        // 1. Initialisiere das Originalmaterial beim ersten Aufruf
+        if (!materialsInitialized)
         {
-            cellRenderer.material = material;
+            if (CellRenderer != null && CellRenderer.sharedMaterial != null)
+            {
+                originalMaterial = CellRenderer.sharedMaterial;
+                materialsInitialized = true;
+                UnityEngine.Debug.Log($"[Init] Originalmaterial gespeichert für {gameObject.name}: {originalMaterial.name}");
+            }
+            else
+            {
+                UnityEngine.Debug.LogError($"[Init] Kein gültiges sharedMaterial für {gameObject.name} gefunden!");
+                return;
+            }
+        }
+
+        // 2. Prüfe, ob Material gültig ist
+        if (material == null)
+        {
+            UnityEngine.Debug.LogWarning($"[Set] Material ist null für {gameObject.name}, Abbruch.");
+            return;
+        }
+
+        // 3. Renderer vorhanden?
+        if (CellRenderer == null)
+        {
+            UnityEngine.Debug.LogError($"[Set] Kein Renderer gefunden für {gameObject.name}, Abbruch.");
+            return;
+        }
+
+        // 4. Material setzen
+        if (material == originalMaterial)
+        {
+            CellRenderer.sharedMaterial = material;
+            UnityEngine.Debug.Log($"[Set] sharedMaterial gesetzt für {gameObject.name}: {material.name}");
+        }
+        else
+        {
+            CellRenderer.material = material;
+            UnityEngine.Debug.Log($"[Set] material gesetzt für {gameObject.name}: {material.name}");
         }
     }
 
-    // Die SetElevation-Methode ist nicht mehr notwendig, da Prefabs das Material mitbringen.
 }
