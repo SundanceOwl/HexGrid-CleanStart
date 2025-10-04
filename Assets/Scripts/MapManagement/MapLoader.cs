@@ -16,7 +16,6 @@ public class MapLoader : MonoBehaviour
     public HexGame hexGame;
     public string fileName = "Map_01.json";
 
-    [ContextMenu("Load Map from File")]
     public void LoadMap()
     {
         if (hexGame == null)

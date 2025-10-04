@@ -23,7 +23,6 @@ public class MapSaver : MonoBehaviour
     public string fileName = "Map_01.json";
 
     // --- Die Speichern-Funktion ---
-    [ContextMenu("Save Map to File")] // <--- DIESE ZEILE HINZUFÜGEN!
     public void SaveMap()
     {
         if (hexGame == null)

@@ -28,11 +28,9 @@ public class HexGame : MonoBehaviour
     public Dictionary<int, HexCell> cells = new Dictionary<int, HexCell>();
     private HexCell selectedCell = null;
 
-
-    void Start()
+    private void Start()
     {
-        GenerateGrid();
-        InitializeGameStart();
+        InitializeGameStart(); // Danach initialisieren
     }
 
 
@@ -311,6 +309,11 @@ public class HexGame : MonoBehaviour
 
     public void HandleCellClick(HexCell cell)
     {
+        if (selectedCell != null && selectedCell.currentUnit != null)
+        {
+            HighlightReachableCells(selectedCell.currentUnit, false);
+        }
+
         // Phase 1: Hat der Spieler bereits eine Unit ausgewählt?
         if (selectedCell != null)
         {

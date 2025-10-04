@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using UnityEngine;
 
 public class Unit : MonoBehaviour
@@ -10,6 +11,8 @@ public class Unit : MonoBehaviour
 
     [Header("Position")]
     public HexCell currentCell;
+
+    public string unitName = "StandardEinheit";
 
     // Platziert die Einheit auf einer bestimmten Zelle
     public void Place(HexCell cell)
@@ -28,6 +31,11 @@ public class Unit : MonoBehaviour
 
         // Einheit wird Kind des Tiles (sauberere Hierarchie)
         transform.SetParent(cell.transform);
+    }
+
+    void OnMouseDown()
+    {
+        GameManager.Instance.SelectUnit(this);
     }
 
     public void DestroyUnit()
